@@ -117,6 +117,53 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+	{
+		path: '/course',
+		component: Layout,
+		redirect: '/course/media',
+		name: 'Course',
+		alwaysShow: true,
+		meta: {
+			title: '课程',
+			icon: 'excel',
+			roles: ['admin', 'editor']
+		},
+		children: [
+			{
+				path: 'media',
+				name: 'Media',
+				component: () => import('@/views/course/media'),
+				meta: {
+					title: '图文'
+				}
+			},
+			{
+				// hidden: true,
+				path: 'audio',
+				name: 'Audio',
+				component: () => import('@/views/course/audio'),
+				meta: {
+					title: '音频'
+				}
+			},
+			{
+				path: 'video',
+				name: 'Video',
+				component: () => import('@/views/course/video'),
+				meta: {
+					title: '视频'
+				}
+			},
+			{
+				path: 'column',
+				name: 'Column',
+				component: () => import('@/views/course/column'),
+				meta: {
+					title: '专栏'
+				}
+			}
+		]
+	},
 	// {
 	//   path: "/permission",
 	//   component: Layout,
