@@ -64,7 +64,7 @@
 			</el-table-column>
 			<el-table-column label="订阅量" width="110px" align="center">
 				<template slot-scope="{ row }">
-					<span>180</span>
+					<span>{{ row.sub_count }}</span>
 				</template>
 			</el-table-column>
 			<el-table-column label="状态" class-name="status-col" width="100">
@@ -102,7 +102,8 @@
 			@pagination="getList"
 		/>
 
-		<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+		<!-- 全屏弹框 -->
+		<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" fullscreen>
 			<el-form
 				ref="dataForm"
 				:rules="rules"
@@ -111,37 +112,40 @@
 				label-width="70px"
 				style="width: 400px; margin-left: 50px"
 			>
-				<el-form-item label="Date" prop="timestamp">
-					<el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date" />
-				</el-form-item>
-				<el-form-item label="Title" prop="title">
+				<el-form-item label="标题" prop="title" label-width="100px">
 					<el-input v-model="temp.title" />
 				</el-form-item>
-				<el-form-item label="Status">
-					<el-select v-model="temp.status" class="filter-item" placeholder="Please select">
-						<el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
-					</el-select>
+				<el-form-item label="封面" label-width="100px">
+					<el-upload
+						action="https://jsonplaceholder.typicode.com/posts/"
+						list-type="picture-card"
+						:on-preview="handlePictureCardPreview"
+						:on-remove="handleUploadRemove"
+						:on-success="handleUploadSuccess"
+					>
+						<i class="el-icon-plus"></i>
+					</el-upload>
 				</el-form-item>
-				<el-form-item label="Imp">
-					<el-rate
-						v-model="temp.importance"
-						:colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-						:max="3"
-						style="margin-top: 8px"
-					/>
+				<el-form-item label="试看内容" prop="try" label-width="100px">
+					<tinymce v-model="temp.try" :height="300" :width="600" />
 				</el-form-item>
-				<el-form-item label="Remark">
-					<el-input
-						v-model="temp.remark"
-						:autosize="{ minRows: 2, maxRows: 4 }"
-						type="textarea"
-						placeholder="Please input"
-					/>
+				<el-form-item label="课程内容" prop="content" label-width="100px">
+					<tinymce v-model="temp.content" :height="300" :width="600" />
+				</el-form-item>
+				<el-form-item label="课程价格" label-width="100px">
+					<el-input-number v-model="temp.price" :min="0" label="价格"></el-input-number>
+				</el-form-item>
+				<el-form-item label="状态" label-width="100px">
+					<el-radio-group v-model="temp.status">
+						<el-radio :label="0">下架</el-radio>
+						<el-radio :label="1">上架</el-radio>
+					</el-radio-group>
 				</el-form-item>
 			</el-form>
+
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="dialogFormVisible = false">Cancel</el-button>
-				<el-button type="primary" @click="dialogStatus === 'create' ? createData() : updateData()">Confirm</el-button>
+				<el-button type="primary" @click="dialogStatus === 'create' ? createData() : updateCourse()">Confirm</el-button>
 			</div>
 		</el-dialog>
 
@@ -160,7 +164,7 @@
 <script>
 import { fetchList } from '@/api/course';
 
-import { fetchPv, createArticle, updateArticle } from '@/api/article';
+import { createCourse, updateCourse } from '@/api/course';
 import waves from '@/directive/waves'; // waves directive
 import { parseTime } from '@/utils';
 import Pagination from '@/components/Pagination'; // secondary package based on el-pagination
@@ -170,9 +174,10 @@ const statusOptions = {
 	1: '已上架'
 };
 
+import Tinymce from '@/components/Tinymce';
 export default {
 	name: 'ComplexTable',
-	components: { Pagination },
+	components: { Pagination, Tinymce },
 	directives: { waves },
 	filters: {
 		statusFilter(status) {
@@ -200,33 +205,46 @@ export default {
 			statusOptions,
 			temp: {
 				id: undefined,
-				importance: 1,
-				remark: '',
-				timestamp: new Date(),
 				title: '',
-				type: '',
-				status: 'published'
+				status: 1,
+				price: 0,
+				try: '',
+				content: '',
+				cover: ''
 			},
 			dialogFormVisible: false,
 			dialogStatus: '',
 			textMap: {
-				update: 'Edit',
-				create: 'Create'
+				update: '修改',
+				create: '新增'
 			},
 			dialogPvVisible: false,
 			pvData: [],
 			rules: {
-				type: [{ required: true, message: 'type is required', trigger: 'change' }],
-				timestamp: [
+				title: [
 					{
-						type: 'date',
 						required: true,
-						message: 'timestamp is required',
-						trigger: 'change'
+						message: '标题不能为空',
+						trigger: 'blur'
 					}
 				],
-				title: [{ required: true, message: 'title is required', trigger: 'blur' }]
+				try: [
+					{
+						required: true,
+						message: '试看内容不能为空',
+						trigger: 'blur'
+					}
+				],
+				content: [
+					{
+						required: true,
+						message: '课程内容不能为空',
+						trigger: 'blur'
+					}
+				]
 			},
+			dialogImageUrl: '',
+			dialogVisible: false,
 			downloadLoading: false
 		};
 	},
@@ -274,12 +292,12 @@ export default {
 		resetTemp() {
 			this.temp = {
 				id: undefined,
-				importance: 1,
-				remark: '',
-				timestamp: new Date(),
 				title: '',
-				status: 'published',
-				type: ''
+				status: 1,
+				price: 0,
+				try: '',
+				content: '',
+				cover: ''
 			};
 		},
 		handleCreate() {
@@ -295,7 +313,7 @@ export default {
 				if (valid) {
 					this.temp.id = parseInt(Math.random() * 100) + 1024; // mock a id
 					this.temp.author = 'vue-element-admin';
-					createArticle(this.temp).then(() => {
+					createCourse(this.temp).then(() => {
 						this.list.unshift(this.temp);
 						this.dialogFormVisible = false;
 						this.$notify({
@@ -317,18 +335,18 @@ export default {
 				this.$refs['dataForm'].clearValidate();
 			});
 		},
-		updateData() {
+		updateCourse() {
 			this.$refs['dataForm'].validate((valid) => {
 				if (valid) {
 					const tempData = Object.assign({}, this.temp);
 					tempData.timestamp = +new Date(tempData.timestamp); // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-					updateArticle(tempData).then(() => {
+					updateCourse(tempData).then(() => {
 						const index = this.list.findIndex((v) => v.id === this.temp.id);
 						this.list.splice(index, 1, this.temp);
 						this.dialogFormVisible = false;
 						this.$notify({
-							title: 'Success',
-							message: 'Update Successfully',
+							title: '更新数据成功',
+							message: '更新当前数据成功',
 							type: 'success',
 							duration: 2000
 						});
@@ -354,6 +372,16 @@ export default {
 		getSortClass: function (key) {
 			const sort = this.listQuery.sort;
 			return sort === `+${key}` ? 'ascending' : 'descending';
+		},
+		handleUploadRemove(file, fileList) {
+			console.log(file, fileList);
+		},
+		handlePictureCardPreview(file) {
+			this.dialogImageUrl = file.url;
+			this.dialogVisible = true;
+		},
+		handleUploadSuccess(response, file, fileList) {
+			console.log(response, file, fileList);
 		}
 	}
 };
