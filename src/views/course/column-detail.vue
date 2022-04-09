@@ -103,6 +103,9 @@
 				</template>
 			</el-table-column>
 		</el-table>
+
+		<!-- 弹框 -->
+		<choose-course ref="chooseCourse"></choose-course>
 	</div>
 </template>
 
@@ -114,9 +117,14 @@ const statusOptions = {
 
 import waves from '@/directive/waves'; // waves directive
 import Sortable from 'sortablejs';
+
+import chooseCourse from '@/components/choose-course/choose-course.vue';
 import { fetchDetail, fetchDetailCourse } from '@/api/column.js';
 
 export default {
+	components: {
+		chooseCourse
+	},
 	created() {
 		this.getData(this.$route.query.id);
 		this.getList();
@@ -169,7 +177,9 @@ export default {
 			});
 		},
 		addCourse() {
-			this.$refs.chooseCourse.open();
+			this.$refs.chooseCourse.open((val) => {
+				this.list = [...this.list, ...val];
+			}, 50);
 		},
 		handleFilter() {},
 		async getList() {
@@ -202,6 +212,15 @@ export default {
 					this.newList.splice(evt.newIndex, 0, tempIndex);
 				}
 			});
+		},
+		handleDelete(row, index) {
+			this.$notify({
+				title: '提示',
+				message: '删除成功',
+				type: 'success',
+				duration: 2000
+			});
+			this.list.splice(index, 1);
 		}
 	}
 };
