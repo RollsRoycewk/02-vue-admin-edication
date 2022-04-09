@@ -162,9 +162,9 @@
 </template>
 
 <script>
-import { fetchList } from '@/api/course';
+import { fetchList } from '@/api/media';
 
-import { createCourse, updateCourse } from '@/api/course';
+import { createCourse, updateCourse } from '@/api/media';
 import waves from '@/directive/waves'; // waves directive
 import { parseTime } from '@/utils';
 import Pagination from '@/components/Pagination'; // secondary package based on el-pagination
