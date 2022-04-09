@@ -161,6 +161,15 @@ export const asyncRoutes = [
 				meta: {
 					title: '专栏'
 				}
+			},
+			{
+				hidden: true,
+				path: 'column-detail',
+				name: 'ColumnDetail',
+				component: () => import('@/views/course/column-detail'),
+				meta: {
+					title: '专栏详情'
+				}
 			}
 		]
 	},
