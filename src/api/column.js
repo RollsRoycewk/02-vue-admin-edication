@@ -31,3 +31,19 @@ export function deleteCourse(data) {
 		data
 	});
 }
+
+export function fetchDetail(query) {
+	return request({
+		url: '/vue-element-admin/column/detail',
+		method: 'get',
+		params: query
+	});
+}
+
+export function fetchDetailCourse(query) {
+	return request({
+		url: '/vue-element-admin/column/course',
+		method: 'get',
+		params: query
+	});
+}

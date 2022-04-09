@@ -409,8 +409,8 @@ export default {
 		handleUploadChange(file, fileList) {
 			this.fileList = fileList.slice(-3);
 		},
-		openDetail() {
-			this.$router.push({ name: 'ColumnDetail' });
+		openDetail(row) {
+			this.$router.push({ name: 'ColumnDetail', query: { id: row.id } });
 		}
 	}
 };

@@ -12,7 +12,7 @@ for (let i = 0; i < count; i++) {
 		Mock.mock({
 			id: '@increment',
 			title: '@csentence(5, 10)',
-			cover: "@image('200*100')",
+			cover: '@image("200x100")',
 			try: '@cparagraph',
 			content: '@cparagraph',
 			'price|1': [10, 5, 6, 99, 88, 100],
@@ -72,6 +72,69 @@ module.exports = [
 			return {
 				code: 20000,
 				data: 'success'
+			};
+		}
+	},
+
+	{
+		url: '/vue-element-admin/column/detail',
+		type: 'get',
+		response: (config) => {
+			let { id } = config.query;
+
+			let data = List.find((item) => item.id == id);
+
+			if (!data) {
+				return {
+					code: 20000,
+					data: false
+				};
+			}
+
+			return {
+				code: 20000,
+				data
+			};
+		}
+	},
+
+	{
+		url: '/vue-element-admin/column/course',
+		type: 'get',
+		response: (config) => {
+			const { status, title } = config.query;
+
+			let courseList = [];
+
+			for (let i = 0; i < 50; i++) {
+				courseList.push(
+					Mock.mock({
+						id: '@increment',
+						title: '@csentence(5, 10)',
+						cover: '@image("200x100")',
+						try: '@cparagraph',
+						content: '@cparagraph',
+						'price|1': [10, 5, 6, 99, 88, 100],
+						'status|1': [0, 1],
+						'sub_count|1': [10, 5, 6, 99, 88, 100],
+						created_time: '@now',
+						updated_time: '@now'
+					})
+				);
+			}
+
+			let mockList = courseList.filter((item) => {
+				// if (type && item.type !== type) return false
+				if (title && item.title.indexOf(title) < 0) return false;
+				return true;
+			});
+
+			return {
+				code: 20000,
+				data: {
+					total: mockList.length,
+					items: mockList
+				}
 			};
 		}
 	}
