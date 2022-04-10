@@ -173,6 +173,25 @@ export const asyncRoutes = [
 			}
 		]
 	},
+	{
+		path: '/user',
+		component: Layout,
+		meta: {
+			title: '用户',
+			icon: 'user'
+		},
+		redirect: '/user',
+		children: [
+			{
+				path: 'user',
+				name: 'User',
+				component: () => import('@/views/user'),
+				meta: {
+					title: '用户'
+				}
+			}
+		]
+	},
 	// {
 	//   path: "/permission",
 	//   component: Layout,
