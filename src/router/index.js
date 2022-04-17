@@ -227,6 +227,51 @@ export const asyncRoutes = [
 			}
 		]
 	},
+	{
+		path: '/renovation',
+		component: Layout,
+		meta: {
+			title: '可视化',
+			icon: 'education'
+		},
+		redirect: '/mobile/index',
+		children: [
+			{
+				path: 'mobile_index',
+				name: 'MobileIndex',
+				component: () => import('@/views/renovation/mobile/index'),
+				meta: {
+					title: '移动端'
+				}
+			},
+			{
+				path: 'mobile_edit',
+				name: 'MobileEdit',
+				hidden: true,
+				component: () => import('@/views/renovation/mobile/edit'),
+				meta: {
+					title: '移动端装修'
+				}
+			},
+			{
+				path: 'pc_index',
+				name: 'PcIndex',
+				component: () => import('@/views/renovation/pc/index'),
+				meta: {
+					title: 'PC端'
+				}
+			},
+			{
+				path: 'pc_edit',
+				name: 'PcEdit',
+				hidden: true,
+				component: () => import('@/views/renovation/pc/edit'),
+				meta: {
+					title: 'PC端装修'
+				}
+			}
+		]
+	},
 	// {
 	//   path: "/permission",
 	//   component: Layout,
