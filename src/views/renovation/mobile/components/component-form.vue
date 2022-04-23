@@ -1,0 +1,141 @@
+<template>
+	<div>
+		<el-form ref="form" label-width="80px" size="normal">
+			<!-- 搜索框 -->
+			<el-form-item v-if="formType == 'search'" label="占位提示">
+				<el-input
+					v-model="search.placeholder"
+					size="mini"
+					style="width: 200px"
+					@input="handleChange('placeholder')"
+				></el-input>
+			</el-form-item>
+			<!-- 课程列表 -->
+			<template v-else-if="formType == 'list'">
+				<el-form-item label="类型">
+					<el-radio-group v-model="list.listType" @change="handleChange('listType')">
+						<el-radio label="one">单栏</el-radio>
+						<el-radio label="two">双栏</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="标题">
+					<el-input v-model="list.title" size="mini" style="width: 200px" @input="handleChange('title')"></el-input>
+				</el-form-item>
+				<el-form-item label="更多">
+					<el-radio-group v-model="list.showMore" @change="handleChange('showMore')">
+						<el-radio :label="true">显示</el-radio>
+						<el-radio :label="false">隐藏</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="更多链接">
+					<el-button type="default" size="mini" @click="handleChoosePage">
+						{{ list.more ? list.more.title : '选择页面' }}
+					</el-button>
+				</el-form-item>
+				<el-form-item label-width="0">
+					<div class="choose-course-btn">
+						<el-button icon="el-icon-circle-plus-outline" type="text" @click="handleChooseCourse">关联课程</el-button>
+						<span>最多关联10门</span>
+					</div>
+					<drag-course :list="list.data" @del="deleteCourse"></drag-course>
+				</el-form-item>
+			</template>
+		</el-form>
+
+		<choose-course ref="chooseCourse"></choose-course>
+		<choose-page ref="choosePage"></choose-page>
+	</div>
+</template>
+
+<script>
+import DragCourse from './drag-course.vue';
+import ChooseCourse from '@/components/choose-course/choose-course.vue';
+import ChoosePage from './choose-page.vue';
+
+export default {
+	components: {
+		DragCourse,
+		ChooseCourse,
+		ChoosePage
+	},
+	props: {
+		formType: {
+			type: String,
+			default: ''
+		}
+	},
+	data() {
+		return {
+			search: {
+				placeholder: ''
+			},
+			list: {
+				listType: 'one',
+				title: '',
+				showMore: true,
+				more: false,
+				data: []
+			}
+		};
+	},
+	methods: {
+		// 监听实时变化
+		handleChange(key) {
+			this.$emit('change', {
+				key,
+				value: this[this.formType][key]
+			});
+		},
+		// 初始化数据
+		initVal(val) {
+			for (const key in val) {
+				this[val.type][key] = val[key];
+			}
+		},
+		// 选择页面
+		handleChoosePage() {
+			this.$refs.choosePage.open((val) => {
+				this.list.more = val[0];
+			}, 1);
+		},
+		// 关联课程
+		handleChooseCourse() {
+			this.$refs.chooseCourse.open((val) => {
+				this[this.formType].data = [...this[this.formType].data, ...val];
+				this.handleChange('data');
+			}, 10);
+		},
+		// 删除关联
+		deleteCourse(row) {
+			this.$confirm('是否要取消关联该课程？', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then((action) => {
+				let i = this[this.formType].data.findIndex((v) => v.id == row.id);
+				if (i !== -1) {
+					this[this.formType].data.splice(i, 1);
+					this.$message({
+						message: '取消关联成功',
+						type: 'success'
+					});
+				}
+			});
+		}
+	}
+};
+</script>
+
+<style>
+.choose-course-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border: 1px dotted #13ce66;
+}
+.choose-course-btn span {
+	color: #888888;
+	font-size: 12px;
+}
+</style>

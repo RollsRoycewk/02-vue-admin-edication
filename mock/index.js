@@ -11,8 +11,21 @@ const audio = require('./audio');
 const video = require('./video');
 const column = require('./column');
 const pay = require('./pay');
+const renovation = require('./renovation');
 
-const mocks = [...user, ...role, ...article, ...search, ...course, ...media, ...audio, ...video, ...column, ...pay];
+const mocks = [
+	...user,
+	...role,
+	...article,
+	...search,
+	...course,
+	...media,
+	...audio,
+	...video,
+	...column,
+	...pay,
+	...renovation
+];
 
 // for front mock
 // please use it cautiously, it will redefine XMLHttpRequest,

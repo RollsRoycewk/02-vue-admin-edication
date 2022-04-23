@@ -16,6 +16,7 @@ for (let i = 0; i < count; i++) {
 			try: '@cparagraph',
 			content: '@cparagraph',
 			'price|1': [10, 5, 6, 99, 88, 100],
+			't_price|1': [10, 5, 6, 99, 88, 100],
 			'status|1': [0, 1],
 			'sub_count|1': [871, 557, 68, 90, 88, 100],
 			create_time: '@now',

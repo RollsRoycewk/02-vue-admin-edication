@@ -12,7 +12,7 @@ for (let i = 0; i < count; i++) {
 		Mock.mock({
 			id: '@increment',
 			title: '@csentence(5, 10)',
-			cover: "@image('200*100')",
+			cover: '@image("200x100")',
 			try: '@cparagraph',
 			content: '@cparagraph',
 			'price|1': [10, 5, 6, 99, 88, 100],
