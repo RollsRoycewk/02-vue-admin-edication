@@ -49,10 +49,13 @@
 								<search-bar :placeholder="item.placeholder"></search-bar>
 							</template>
 							<!-- 列表 -->
-							<template v-if="item.type === 'list'">
+							<template v-else-if="item.type === 'list'">
 								<list :title="item.title" :showMore="item.showMore" :list="item.data" :listType="item.listType"></list>
 							</template>
 							<!-- swiper -->
+							<template v-else-if="item.type === 'swiper'">
+								<swiper :list="item.data"></swiper>
+							</template>
 						</div>
 					</div>
 				</el-card>
@@ -84,6 +87,7 @@
 import searchBar from './components/search-bar.vue';
 import list from './components/list.vue';
 import componentForm from './components/component-form.vue';
+import swiper from './components/swiper.vue';
 
 import util from '@/utils/util.js';
 
@@ -91,7 +95,8 @@ export default {
 	components: {
 		searchBar,
 		list,
-		componentForm
+		componentForm,
+		swiper
 	},
 	computed: {
 		// 当前选中对象
@@ -128,7 +133,17 @@ export default {
 					title: '轮播图',
 					type: 'swiper',
 					default: {
-						data: []
+						data: [
+							{
+								src: 'https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943'
+							},
+							{
+								src: 'https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943'
+							},
+							{
+								src: 'https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943'
+							}
+						]
 					}
 				},
 				{

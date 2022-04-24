@@ -40,10 +40,22 @@
 					<drag-course :list="list.data" @del="deleteCourse"></drag-course>
 				</el-form-item>
 			</template>
+
+			<!-- swiper -->
+			<template v-else-if="formType == 'swiper'">
+				<el-form-item label-width="0">
+					<div class="choose-course-btn">
+						<el-button icon="el-icon-circle-plus-outline" type="text" @click="createSwiper">新增轮播图</el-button>
+						<span>最多5张</span>
+					</div>
+				</el-form-item>
+				<drag-swiper :list="swiper.data" @del="deleteCourse"></drag-swiper>
+			</template>
 		</el-form>
 
 		<choose-course ref="chooseCourse"></choose-course>
 		<choose-page ref="choosePage"></choose-page>
+		<upload-image ref="uploadImage"></upload-image>
 	</div>
 </template>
 
@@ -51,18 +63,27 @@
 import DragCourse from './drag-course.vue';
 import ChooseCourse from '@/components/choose-course/choose-course.vue';
 import ChoosePage from './choose-page.vue';
+import DragSwiper from './drag-swiper.vue';
+import UploadImage from './upload-image.vue';
 
 export default {
 	components: {
 		DragCourse,
 		ChooseCourse,
-		ChoosePage
+		ChoosePage,
+		DragSwiper,
+		UploadImage
 	},
 	props: {
 		formType: {
 			type: String,
 			default: ''
 		}
+	},
+	provide() {
+		return {
+			componentForm: this
+		};
 	},
 	data() {
 		return {
@@ -75,10 +96,17 @@ export default {
 				showMore: true,
 				more: false,
 				data: []
+			},
+			swiper: {
+				data: []
 			}
 		};
 	},
 	methods: {
+		// 打开选择课程框
+		openChooseCourse(callback, limit) {
+			this.$refs.chooseCourse.open(callback, limit);
+		},
 		// 监听实时变化
 		handleChange(key) {
 			this.$emit('change', {
@@ -120,6 +148,22 @@ export default {
 						type: 'success'
 					});
 				}
+			});
+		},
+		// 新增轮播图
+		createSwiper() {
+			if (this.swiper.data.length === 5) {
+				return this.$message({
+					type: 'error',
+					message: '最多只能创建5个'
+				});
+			}
+			this.swiper.data.push({
+				src: 'https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943',
+				type: '课程course', // 课程course,网页地址webview
+				course_title: '',
+				course_id: '',
+				url: ''
 			});
 		}
 	}
