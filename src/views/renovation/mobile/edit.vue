@@ -60,6 +60,10 @@
 							<template v-else-if="item.type == 'icons'">
 								<icons :list="item.data"></icons>
 							</template>
+							<!-- 卡券 -->
+							<template v-else-if="item.type == 'coupon'">
+								<counp :list="item.data"></counp>
+							</template>
 						</div>
 					</div>
 				</el-card>
@@ -93,6 +97,7 @@ import List from './components/list.vue';
 import componentForm from './components/component-form.vue';
 import Swiper from './components/swiper.vue';
 import Icons from './components/icons.vue';
+import Counp from './components/counp.vue';
 
 import util from '@/utils/util.js';
 
@@ -102,7 +107,8 @@ export default {
 		List,
 		componentForm,
 		Swiper,
-		Icons
+		Icons,
+		Counp
 	},
 	computed: {
 		// 当前选中对象
