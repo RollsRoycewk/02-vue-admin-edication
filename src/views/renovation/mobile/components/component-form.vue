@@ -51,6 +51,17 @@
 				</el-form-item>
 				<drag-swiper :list="swiper.data" @del="deleteCourse"></drag-swiper>
 			</template>
+
+			<!-- icon -->
+			<template v-else-if="formType == 'icons'">
+				<el-form-item label-width="0">
+					<div class="choose-course-btn">
+						<el-button icon="el-icon-circle-plus-outline" type="text" @click="createIcon">新增分类</el-button>
+						<span>最多8张</span>
+					</div>
+				</el-form-item>
+				<drag-icons :list="icons.data" @del="deleteIcons"></drag-icons>
+			</template>
 		</el-form>
 
 		<choose-course ref="chooseCourse"></choose-course>
@@ -65,6 +76,7 @@ import ChooseCourse from '@/components/choose-course/choose-course.vue';
 import ChoosePage from './choose-page.vue';
 import DragSwiper from './drag-swiper.vue';
 import UploadImage from './upload-image.vue';
+import DragIcons from './drag-icons.vue';
 
 export default {
 	components: {
@@ -72,7 +84,8 @@ export default {
 		ChooseCourse,
 		ChoosePage,
 		DragSwiper,
-		UploadImage
+		UploadImage,
+		DragIcons
 	},
 	props: {
 		formType: {
@@ -99,10 +112,40 @@ export default {
 			},
 			swiper: {
 				data: []
+			},
+			icons: {
+				data: []
 			}
 		};
 	},
 	methods: {
+		deleteIcons(index) {
+			this.$confirm('是否要删除该分类？', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then((action) => {
+				this.icons.data.splice(index, 1);
+			});
+		},
+		createIcon() {
+			if (this.icons.data.length === 8) {
+				return this.$message({
+					type: 'error',
+					message: '最多只能创建8个'
+				});
+			}
+			this.icons.data.push({
+				src: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+				name: '分类',
+				type: '',
+				url: '',
+				page_id: 0,
+				page_title: '',
+				course_title: '',
+				course_id: ''
+			});
+		},
 		// 打开选择课程框
 		openChooseCourse(callback, limit) {
 			this.$refs.chooseCourse.open(callback, limit);

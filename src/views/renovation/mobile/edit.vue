@@ -56,6 +56,10 @@
 							<template v-else-if="item.type === 'swiper'">
 								<swiper :list="item.data"></swiper>
 							</template>
+							<!-- 图标分类 -->
+							<template v-else-if="item.type == 'icons'">
+								<icons :list="item.data"></icons>
+							</template>
 						</div>
 					</div>
 				</el-card>
@@ -85,18 +89,20 @@
 
 <script>
 import searchBar from './components/search-bar.vue';
-import list from './components/list.vue';
+import List from './components/list.vue';
 import componentForm from './components/component-form.vue';
-import swiper from './components/swiper.vue';
+import Swiper from './components/swiper.vue';
+import Icons from './components/icons.vue';
 
 import util from '@/utils/util.js';
 
 export default {
 	components: {
 		searchBar,
-		list,
+		List,
 		componentForm,
-		swiper
+		Swiper,
+		Icons
 	},
 	computed: {
 		// 当前选中对象
