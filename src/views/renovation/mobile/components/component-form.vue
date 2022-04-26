@@ -62,6 +62,15 @@
 				</el-form-item>
 				<drag-icons :list="icons.data" @del="deleteIcons"></drag-icons>
 			</template>
+			<!-- 活动图片 -->
+			<template v-else-if="formType == 'imageAd'">
+				<el-form-item label-width="0">
+					<div class="choose-course-btn">
+						<el-button icon="el-icon-circle-plus-outline" type="text" @click="createImageAd">新增图片</el-button>
+					</div>
+				</el-form-item>
+				<drag-swiper :list="imageAd.data" @del="deleteSwiper"></drag-swiper>
+			</template>
 		</el-form>
 
 		<choose-course ref="chooseCourse"></choose-course>
@@ -115,10 +124,23 @@ export default {
 			},
 			icons: {
 				data: []
+			},
+			imageAd: {
+				data: []
 			}
 		};
 	},
 	methods: {
+		// 删除轮播图
+		deleteSwiper(index) {
+			this.$confirm('是否要删除该轮播图？', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then((action) => {
+				this[this.formType].data.splice(index, 1);
+			});
+		},
 		deleteIcons(index) {
 			this.$confirm('是否要删除该分类？', '提示', {
 				confirmButtonText: '确定',
@@ -126,6 +148,21 @@ export default {
 				type: 'warning'
 			}).then((action) => {
 				this.icons.data.splice(index, 1);
+			});
+		},
+		createImageAd() {
+			if (this.imageAd.data.length === 1) {
+				return this.$message({
+					type: 'error',
+					message: '最多只能创建1个'
+				});
+			}
+			this.imageAd.data.push({
+				src: 'https://dummyimage.com/365x150',
+				type: '', // 课程course,网页地址webview
+				course_title: '',
+				course_id: '',
+				url: ''
 			});
 		},
 		createIcon() {

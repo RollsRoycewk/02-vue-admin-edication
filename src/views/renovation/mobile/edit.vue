@@ -64,12 +64,19 @@
 							<template v-else-if="item.type == 'coupon'">
 								<counp :list="item.data"></counp>
 							</template>
+							<!-- 广告图 -->
+							<template v-else-if="item.type == 'imageAd'">
+								<image-ad :list="item.data"></image-ad>
+							</template>
 						</div>
 					</div>
 				</el-card>
 			</el-col>
 
-			<div style="position: fixed; right: 40px; top: 100px">
+			<div
+				v-show="currentCompoent.type && currentCompoent.type != 'coupon'"
+				style="position: fixed; right: 40px; top: 100px"
+			>
 				<el-card
 					shadow="always"
 					:body-style="{ padding: '20px' }"
@@ -98,6 +105,7 @@ import componentForm from './components/component-form.vue';
 import Swiper from './components/swiper.vue';
 import Icons from './components/icons.vue';
 import Counp from './components/counp.vue';
+import ImageAd from './components/image-ad.vue';
 
 import util from '@/utils/util.js';
 
@@ -108,7 +116,8 @@ export default {
 		componentForm,
 		Swiper,
 		Icons,
-		Counp
+		Counp,
+		ImageAd
 	},
 	computed: {
 		// 当前选中对象
@@ -247,7 +256,11 @@ export default {
 					title: '图片广告',
 					type: 'imageAd',
 					default: {
-						data: []
+						data: [
+							{
+								src: 'https://wpimg.wallstcn.com/e4558086-631c-425c-9430-56ffb46e70b3'
+							}
+						]
 					}
 				}
 			],
@@ -272,6 +285,8 @@ export default {
 		},
 		// 中间组件
 		handleCheckedComponent(item) {
+			if (item.type == 'coupon') return;
+
 			this.templates.map((v) => (v.checked = false));
 			item.checked = true;
 
@@ -326,7 +341,7 @@ export default {
 	border: 2px dotted #2196f3;
 	right: -29px;
 	top: -2px;
-	z-index: 999;
+	z-index: 1;
 	border-left-width: 0;
 }
 

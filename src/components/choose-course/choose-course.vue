@@ -1,5 +1,12 @@
 <template>
-	<el-dialog title="选择课程" :visible.sync="dialogVisible" width="70%" top="5vh">
+	<el-dialog
+		title="选择课程"
+		:visible.sync="dialogVisible"
+		width="70%"
+		top="5vh"
+		append-to-body
+		:modal-append-to-body="false"
+	>
 		<el-container>
 			<!-- 头部搜索 -->
 			<el-header>
