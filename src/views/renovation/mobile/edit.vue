@@ -68,6 +68,10 @@
 							<template v-else-if="item.type == 'imageAd'">
 								<image-ad :list="item.data"></image-ad>
 							</template>
+							<!-- 拼团 -->
+							<template v-else-if="item.type == 'promotion'">
+								<promotion :title="item.title" :list="item.data" :listType="item.listType"></promotion>
+							</template>
 						</div>
 					</div>
 				</el-card>
@@ -106,6 +110,7 @@ import Swiper from './components/swiper.vue';
 import Icons from './components/icons.vue';
 import Counp from './components/counp.vue';
 import ImageAd from './components/image-ad.vue';
+import Promotion from './components/promotion.vue';
 
 import util from '@/utils/util.js';
 
@@ -117,7 +122,8 @@ export default {
 		Swiper,
 		Icons,
 		Counp,
-		ImageAd
+		ImageAd,
+		Promotion
 	},
 	computed: {
 		// 当前选中对象

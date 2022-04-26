@@ -71,6 +71,31 @@
 				</el-form-item>
 				<drag-swiper :list="imageAd.data" @del="deleteSwiper"></drag-swiper>
 			</template>
+
+			<!-- 限时拼团 -->
+			<template v-else-if="formType == 'promotion'">
+				<el-form-item label="类型">
+					<el-radio-group v-model="promotion.listType" @change="handleChange('listType')">
+						<el-radio label="group">拼团</el-radio>
+						<el-radio label="flash">限时活动</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="标题">
+					<el-input
+						v-model="promotion.title"
+						size="mini"
+						style="width: 200px"
+						@input="handleChange('title')"
+					></el-input>
+				</el-form-item>
+				<el-form-item label-width="0">
+					<div class="choose-course-btn">
+						<el-button icon="el-icon-circle-plus-outline" type="text" @click="handleChooseCourse">关联课程</el-button>
+						<span>最多关联10门</span>
+					</div>
+				</el-form-item>
+				<drag-course :list="promotion.data" @del="deleteCourse"></drag-course>
+			</template>
 		</el-form>
 
 		<choose-course ref="chooseCourse"></choose-course>
@@ -126,6 +151,11 @@ export default {
 				data: []
 			},
 			imageAd: {
+				data: []
+			},
+			promotion: {
+				listType: 'group',
+				title: '',
 				data: []
 			}
 		};
