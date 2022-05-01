@@ -12,6 +12,7 @@ const video = require('./video');
 const column = require('./column');
 const pay = require('./pay');
 const renovation = require('./renovation');
+const marketing = require('./marketing');
 
 const mocks = [
 	...user,
@@ -24,7 +25,8 @@ const mocks = [
 	...video,
 	...column,
 	...pay,
-	...renovation
+	...renovation,
+	...marketing
 ];
 
 // for front mock

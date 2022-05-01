@@ -272,7 +272,35 @@ export const asyncRoutes = [
 			}
 		]
 	},
-	// {
+	{
+		path: '/marketing',
+		component: Layout,
+		meta: {
+			title: '营销',
+			icon: 'education'
+		},
+		redirect: '/marketing/group',
+		children: [
+			{
+				path: 'group',
+				name: 'Group',
+				component: () => import('@/views/marketing/group'),
+				meta: { title: '拼团' }
+			},
+			{
+				path: 'flashsale',
+				name: 'Flashsale',
+				component: () => import('@/views/marketing/flashsale'),
+				meta: { title: '秒杀' }
+			},
+			{
+				path: 'coupon',
+				name: 'Coupon',
+				component: () => import('@/views/marketing/coupon'),
+				meta: { title: '优惠券' }
+			}
+		]
+	},
 	//   path: "/permission",
 	//   component: Layout,
 	//   redirect: "/permission/page",
