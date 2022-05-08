@@ -13,6 +13,8 @@ const column = require('./column');
 const pay = require('./pay');
 const renovation = require('./renovation');
 const marketing = require('./marketing');
+const question = require('./question');
+const testpaper = require('./testpaper');
 
 const mocks = [
 	...user,
@@ -26,7 +28,9 @@ const mocks = [
 	...column,
 	...pay,
 	...renovation,
-	...marketing
+	...marketing,
+	...question,
+	...testpaper
 ];
 
 // for front mock

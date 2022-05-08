@@ -301,6 +301,55 @@ export const asyncRoutes = [
 			}
 		]
 	},
+	{
+		path: '/tool',
+		component: Layout,
+		meta: {
+			title: '工具',
+			icon: 'education'
+		},
+		redirect: '/bbs',
+		children: [
+			{
+				path: 'bbs',
+				name: 'Bbs',
+				component: () => import('@/views/tool/bbs'),
+				meta: {
+					title: '小社群'
+				}
+			},
+			{
+				path: 'question',
+				name: 'Question',
+				component: () => import('@/views/tool/question'),
+				meta: {
+					title: '题库'
+				}
+			},
+			{
+				path: 'testpaper',
+				name: 'Testpaper',
+				component: () => import('@/views/tool/testpaper/index'),
+				meta: {
+					title: '试卷'
+				}
+			},
+			{
+				path: 'testpaper_form',
+				name: 'TestpaperForm',
+				hidden: true,
+				component: () => import('@/views/tool/testpaper/form'),
+				meta: { title: '卷组' }
+			},
+			{
+				path: 'testpaper_test',
+				name: 'TestpaperTest',
+				hidden: true,
+				component: () => import('@/views/tool/testpaper/test'),
+				meta: { title: '考试管理' }
+			}
+		]
+	},
 	//   path: "/permission",
 	//   component: Layout,
 	//   redirect: "/permission/page",
