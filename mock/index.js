@@ -15,6 +15,7 @@ const renovation = require('./renovation');
 const marketing = require('./marketing');
 const question = require('./question');
 const testpaper = require('./testpaper');
+const bbs = require('./bbs');
 
 const mocks = [
 	...user,
@@ -30,7 +31,8 @@ const mocks = [
 	...renovation,
 	...marketing,
 	...question,
-	...testpaper
+	...testpaper,
+	...bbs
 ];
 
 // for front mock

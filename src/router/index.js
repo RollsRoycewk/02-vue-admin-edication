@@ -313,11 +313,29 @@ export const asyncRoutes = [
 			{
 				path: 'bbs',
 				name: 'Bbs',
-				component: () => import('@/views/tool/bbs'),
+				component: () => import('@/views/tool/bbs/bbs'),
 				meta: {
 					title: '小社群'
 				}
 			},
+			{
+				path: 'bbs_post',
+				name: 'BbsPost',
+				hidden: true,
+				component: () => import('@/views/tool/bbs/post'),
+				meta: {
+					title: '帖子列表'
+				}
+			},
+			// {
+			// 	path: 'bbs_post',
+			// 	name: 'BbsPost',
+			// 	hidden: true,
+			// 	conponent: () => import('@/views/tool/bbs/post'),
+			// 	meta: {
+			// 		title: '帖子列表'
+			// 	}
+			// },
 			{
 				path: 'question',
 				name: 'Question',
