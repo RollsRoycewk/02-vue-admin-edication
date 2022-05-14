@@ -327,15 +327,6 @@ export const asyncRoutes = [
 					title: '帖子列表'
 				}
 			},
-			// {
-			// 	path: 'bbs_post',
-			// 	name: 'BbsPost',
-			// 	hidden: true,
-			// 	conponent: () => import('@/views/tool/bbs/post'),
-			// 	meta: {
-			// 		title: '帖子列表'
-			// 	}
-			// },
 			{
 				path: 'question',
 				name: 'Question',
@@ -365,6 +356,21 @@ export const asyncRoutes = [
 				hidden: true,
 				component: () => import('@/views/tool/testpaper/test'),
 				meta: { title: '考试管理' }
+			},
+			{
+				path: 'book',
+				name: 'Book',
+				component: () => import('@/views/tool/book/index'),
+				meta: { title: '电子书' }
+			},
+			{
+				path: 'book_detail',
+				hidden: true,
+				name: 'BookDetail',
+				component: () => import('@/views/tool/book/detail'),
+				meta: {
+					title: '电子书目录'
+				}
 			}
 		]
 	},
