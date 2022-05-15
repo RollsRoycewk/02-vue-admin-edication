@@ -82,6 +82,7 @@ module.exports = [
 		url: '/vue-element-admin/user/info.*',
 		type: 'get',
 		response: (config) => {
+			console.log('safsgrhdrheh');
 			const { token } = config.query;
 			const info = users[token];
 
@@ -122,6 +123,39 @@ module.exports = [
 				if (title && item.title.indexOf(title) < 0) return false;
 				return true;
 			});
+
+			const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1));
+
+			return {
+				code: 20000,
+				data: {
+					total: mockList.length,
+					items: pageList
+				}
+			};
+		}
+	},
+
+	{
+		url: '/vue-element-admin/role/list',
+		type: 'get',
+		response: (config) => {
+			const { title, page = 1, limit = 20 } = config.query;
+
+			let mockList = [];
+
+			for (let i = 0; i < 5; i++) {
+				mockList.push(
+					Mock.mock({
+						id: '@increment',
+						name: '@csentence(2, 3)',
+						'role_id|1': ['admin', 'editor'],
+						desc: '@csentence(5, 10)',
+						created_time: '@now',
+						updated_time: '@now'
+					})
+				);
+			}
 
 			const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1));
 

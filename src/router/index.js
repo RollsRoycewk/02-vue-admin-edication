@@ -374,6 +374,41 @@ export const asyncRoutes = [
 			}
 		]
 	},
+	{
+		path: '/setting',
+		component: Layout,
+		meta: {
+			title: '设置',
+			icon: 'education'
+		},
+		redirect: '/setting_index',
+		children: [
+			{
+				path: 'setting_index',
+				name: 'SettingIndex',
+				component: () => import('@/views/setting/index'),
+				meta: {
+					title: '店铺设置'
+				}
+			},
+			{
+				path: 'staffs',
+				name: 'Staffs',
+				component: () => import('@/views/setting/staffs'),
+				meta: {
+					title: '员工管理'
+				}
+			},
+			{
+				path: 'role',
+				name: 'Role',
+				component: () => import('@/views/setting/role'),
+				meta: {
+					title: '角色管理'
+				}
+			}
+		]
+	},
 	//   path: "/permission",
 	//   component: Layout,
 	//   redirect: "/permission/page",

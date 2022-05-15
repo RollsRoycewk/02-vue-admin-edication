@@ -17,6 +17,8 @@ const question = require('./question');
 const testpaper = require('./testpaper');
 const bbs = require('./bbs');
 const book = require('./book');
+const school = require('./school');
+const staff = require('./staff');
 
 const mocks = [
 	...user,
@@ -34,7 +36,9 @@ const mocks = [
 	...question,
 	...testpaper,
 	...bbs,
-	...book
+	...book,
+	...school,
+	...staff
 ];
 
 // for front mock

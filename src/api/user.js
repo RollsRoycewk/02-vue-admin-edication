@@ -94,3 +94,19 @@ export function changeAccessStatus(query) {
 		params: query
 	});
 }
+
+export function fetchRole(query) {
+	return request({
+		url: '/vue-element-admin/role/list',
+		method: 'get',
+		params: query
+	});
+}
+
+export function readRole(query) {
+	return request({
+		url: '/vue-element-admin/role/read',
+		method: 'get',
+		params: query
+	});
+}
