@@ -117,8 +117,8 @@ export default {
 		return {
 			inputType: 'login', // reg
 			loginForm: {
-				username: 'admin',
-				password: '111111',
+				username: 'ceshi1',
+				password: 'ceshi1',
 				repassword: ''
 			},
 			loginRules: {
