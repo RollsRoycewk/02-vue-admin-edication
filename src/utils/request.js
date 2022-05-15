@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { MessageBox, Message } from 'element-ui';
 import store from '@/store';
-import { getToken } from '@/utils/auth';
+import { getToken, getSchoolid } from '@/utils/auth';
 
 // create an axios instance
 const service = axios.create({
@@ -21,6 +21,12 @@ service.interceptors.request.use(
 			// please modify it according to the actual situation
 			config.headers['token'] = getToken();
 		}
+
+		let schoolid = getSchoolid();
+		if (schoolid) {
+			config.headers['schoolid'] = schoolid;
+		}
+
 		return config;
 	},
 	(error) => {
