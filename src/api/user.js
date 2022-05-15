@@ -8,6 +8,14 @@ export function login(data) {
 	});
 }
 
+export function reg(data) {
+	return request({
+		url: '/user/reg',
+		method: 'post',
+		data
+	});
+}
+
 export function getInfo(token) {
 	return request({
 		url: '/admin/user/info',
@@ -18,7 +26,7 @@ export function getInfo(token) {
 
 export function logout() {
 	return request({
-		url: '/vue-element-admin/user/logout',
+		url: '/admin/user/logout',
 		method: 'post'
 	});
 }

@@ -51,46 +51,54 @@
 				</el-form-item>
 			</el-tooltip>
 
+			<el-form-item v-if="inputType == 'reg'" prop="repassword">
+				<span class="svg-container">
+					<svg-icon icon-class="password" />
+				</span>
+				<el-input
+					:key="repasswordType"
+					ref="repassword"
+					v-model="loginForm.repassword"
+					:type="repasswordType"
+					placeholder="请输入确认密码"
+					name="repassword"
+					tabindex="2"
+					autocomplete="on"
+					@keyup.enter.native="handleLogin"
+				/>
+				<span class="show-pwd" @click="showRePwd">
+					<svg-icon :icon-class="repasswordType === 'password' ? 'eye' : 'eye-open'" />
+				</span>
+			</el-form-item>
+
 			<el-button
 				:loading="loading"
 				type="primary"
 				style="width: 100%; margin-bottom: 30px"
 				@click.native.prevent="handleLogin"
 			>
-				Login
+				{{ inputType == 'login' ? '登 录' : '注 册' }}
 			</el-button>
 
-			<div style="position: relative">
-				<div class="tips">
-					<span>Username : admin</span>
-					<span>Password : any</span>
-				</div>
-				<div class="tips">
-					<span style="margin-right: 18px">Username : editor</span>
-					<span>Password : any</span>
-				</div>
-
-				<el-button class="thirdparty-button" type="primary" @click="showDialog = true">Or connect with</el-button>
+			<div>
+				<el-button
+					type="primary"
+					style="width: 100%; margin-bottom: 30px"
+					@click="inputType = inputType == 'login' ? 'reg' : 'login'"
+				>
+					{{ inputType == 'login' ? '切换为注册' : '切换为登录' }}
+				</el-button>
 			</div>
 		</el-form>
-
-		<el-dialog title="Or connect with" :visible.sync="showDialog">
-			Can not be simulated on local, so please combine you own business simulation! ! !
-			<br />
-			<br />
-			<br />
-			<social-sign />
-		</el-dialog>
 	</div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate';
-import SocialSign from './components/SocialSignin';
+import { reg } from '@/api/user';
 
 export default {
 	name: 'Login',
-	components: { SocialSign },
 	data() {
 		// const validateUsername = (rule, value, callback) => {
 		// 	if (!validUsername(value)) {
@@ -107,15 +115,18 @@ export default {
 		// 	}
 		// };
 		return {
+			inputType: 'login', // reg
 			loginForm: {
 				username: 'admin',
-				password: '111111'
+				password: '111111',
+				repassword: ''
 			},
 			loginRules: {
 				username: [{ required: true, trigger: 'blur' }],
 				password: [{ required: true, trigger: 'blur' }]
 			},
 			passwordType: 'password',
+			repasswordType: 'password',
 			capsTooltip: false,
 			loading: false,
 			showDialog: false,
@@ -163,10 +174,42 @@ export default {
 				this.$refs.password.focus();
 			});
 		},
+		showRePwd() {
+			if (this.repasswordType === 'password') {
+				this.repasswordType = '';
+			} else {
+				this.repasswordType = 'password';
+			}
+			this.$nextTick(() => {
+				this.$refs.repassword.focus();
+			});
+		},
 		handleLogin() {
 			this.$refs.loginForm.validate((valid) => {
 				if (valid) {
 					this.loading = true;
+
+					if (this.inputType == 'reg') {
+						reg(this.loginForm)
+							.then((res) => {
+								this.loading = false;
+								this.$message({
+									message: '注册成功',
+									type: 'success'
+								});
+								this.inputType = 'login';
+								this.loginForm = {
+									username: '',
+									password: '',
+									repassword: ''
+								};
+							})
+							.catch((err) => {
+								this.loading = false;
+							});
+						return;
+					}
+
 					this.$store
 						.dispatch('user/login', this.loginForm)
 						.then(() => {
