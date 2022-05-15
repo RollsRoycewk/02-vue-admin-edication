@@ -9,7 +9,7 @@
 			label-position="left"
 		>
 			<div class="title-container">
-				<h3 class="title">Login Form</h3>
+				<h3 class="title">Hello Lp750</h3>
 			</div>
 
 			<el-form-item prop="username">
@@ -92,28 +92,28 @@ export default {
 	name: 'Login',
 	components: { SocialSign },
 	data() {
-		const validateUsername = (rule, value, callback) => {
-			if (!validUsername(value)) {
-				callback(new Error('Please enter the correct user name'));
-			} else {
-				callback();
-			}
-		};
-		const validatePassword = (rule, value, callback) => {
-			if (value.length < 6) {
-				callback(new Error('The password can not be less than 6 digits'));
-			} else {
-				callback();
-			}
-		};
+		// const validateUsername = (rule, value, callback) => {
+		// 	if (!validUsername(value)) {
+		// 		callback(new Error('Please enter the correct user name'));
+		// 	} else {
+		// 		callback();
+		// 	}
+		// };
+		// const validatePassword = (rule, value, callback) => {
+		// 	if (value.length < 6) {
+		// 		callback(new Error('The password can not be less than 6 digits'));
+		// 	} else {
+		// 		callback();
+		// 	}
+		// };
 		return {
 			loginForm: {
 				username: 'admin',
 				password: '111111'
 			},
 			loginRules: {
-				username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-				password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+				username: [{ required: true, trigger: 'blur' }],
+				password: [{ required: true, trigger: 'blur' }]
 			},
 			passwordType: 'password',
 			capsTooltip: false,

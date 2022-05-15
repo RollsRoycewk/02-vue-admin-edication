@@ -37,16 +37,16 @@ module.exports = {
 			errors: true
 		},
 		proxy: {
-			'/upload': {
-				target: 'https://jsonplaceholder.typicode.com/posts',
+			'/dev-api': {
+				target: 'http://demonuxtapi.dishait.cn/',
 				ws: true,
 				changeOrigin: true,
 				pathRewrite: {
-					'^/upload': ''
+					'^/dev-api': ''
 				}
 			}
-		},
-		before: require('./mock/mock-server.js')
+		}
+		// before: require('./mock/mock-server.js')
 	},
 	configureWebpack: {
 		// provide the app's title in webpack's name field, so that
