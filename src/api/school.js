@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 export function fetchSchool(query) {
 	return request({
-		url: '/vue-element-admin/school/list',
+		url: '/admin/school',
 		method: 'get',
 		params: query
 	});
@@ -10,7 +10,7 @@ export function fetchSchool(query) {
 
 export function createSchool(data) {
 	return request({
-		url: '/vue-element-admin/school/save',
+		url: '/admin/school/save',
 		method: 'post',
 		data
 	});

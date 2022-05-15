@@ -19,7 +19,7 @@
 				<el-col :span="8" :offset="0" v-for="(item, index) in list" :key="index">
 					<el-card shadow="hover" style="margin-bottom: 10px">
 						<div style="display: flex; align-items: center; justify-content: space-between">
-							{{ item.title }}
+							{{ item.name }}
 							<el-button type="text" size="mini" @click="openSchool(item)">管理</el-button>
 						</div>
 					</el-card>
