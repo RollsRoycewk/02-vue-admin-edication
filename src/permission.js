@@ -25,17 +25,18 @@ router.beforeEach(async (to, from, next) => {
 			// if is logged in, redirect to the home page
 			next({ path: '/' });
 			NProgress.done(); // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
+		} else if (to.path == '/') {
+			removeSchoolid();
+
+			await store.dispatch('user/getInfo');
+			next();
+			NProgress.done();
 		} else {
 			// determine whether the user has obtained his permission roles through getInfo
 			const hasRoles = store.getters.roles && store.getters.roles.length > 0;
+
 			if (hasRoles) {
 				next();
-			} else if (to.path == '/') {
-				removeSchoolid();
-
-				await store.dispatch('user/getInfo');
-				next();
-				NProgress.done();
 			} else {
 				try {
 					// get user info
@@ -43,7 +44,7 @@ router.beforeEach(async (to, from, next) => {
 					const { roles, menus } = await store.dispatch('user/getInfo');
 
 					// generate accessible routes map based on roles
-					const accessRoutes = await store.dispatch('permission/generateRoutes', roles);
+					const accessRoutes = await store.dispatch('permission/generateRoutes', menus);
 
 					if (roles.length == 0 && menus.length == 0) {
 						Message.error('你没有访问权限');
@@ -73,6 +74,7 @@ router.beforeEach(async (to, from, next) => {
 			// in the free login whitelist, go directly
 			next();
 		} else {
+			console.log('/login?redirect=${to.path}', `${to.path}`);
 			// other pages that do not have permission to access are redirected to the login page.
 			next(`/login?redirect=${to.path}`);
 			NProgress.done();

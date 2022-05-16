@@ -117,6 +117,148 @@ export const constantRoutes = [
 	}
 ];
 
+export const routesList = [
+	{
+		path: 'media',
+		name: 'Media',
+		component: () => import('@/views/course/media')
+	},
+	{
+		path: 'audio',
+		name: 'Audio',
+		component: () => import('@/views/course/audio')
+	},
+	{
+		path: 'video',
+		name: 'Video',
+		component: () => import('@/views/course/video')
+	},
+	{
+		path: 'column',
+		name: 'Column',
+		component: () => import('@/views/course/column')
+	},
+	{
+		path: 'column_detail',
+		name: 'ColumnDetail',
+		component: () => import('@/views/course/column-detail'),
+		meta: {
+			activeMenu: '/course/column',
+			breadcrumb: false
+		}
+	},
+	{
+		path: 'bbs',
+		name: 'Bbs',
+		component: () => import('@/views/tool/bbs/bbs')
+	},
+	{
+		path: 'bbs_post',
+		name: 'BbsPost',
+		component: () => import('@/views/tool/bbs/post')
+	},
+	{
+		path: 'question',
+		name: 'Question',
+		component: () => import('@/views/tool/question')
+	},
+	{
+		path: 'testpaper',
+		name: 'Testpaper',
+		component: () => import('@/views/tool/testpaper/index')
+	},
+	{
+		path: 'testpaper_form',
+		name: 'TestpaperForm',
+		component: () => import('@/views/tool/testpaper/form')
+	},
+	{
+		path: 'testpaper_test',
+		name: 'TestpaperTest',
+		component: () => import('@/views/tool/testpaper/test')
+	},
+	{
+		path: 'book',
+		name: 'Book',
+		component: () => import('@/views/tool/book/index')
+	},
+	{
+		path: 'book_detail',
+		name: 'BookDetail',
+		component: () => import('@/views/tool/book/detail')
+	},
+	{
+		path: 'user',
+		name: 'User',
+		component: () => import('@/views/user/index')
+	},
+	{
+		path: 'order',
+		name: 'Order',
+		component: () => import('@/views/pay/order')
+	},
+	{
+		path: 'assets',
+		name: 'Assets',
+		component: () => import('@/views/pay/assets')
+	},
+	{
+		path: 'payment',
+		name: 'Payment',
+		component: () => import('@/views/pay/payment')
+	},
+	{
+		path: 'group',
+		name: 'Group',
+		component: () => import('@/views/marketing/group')
+	},
+	{
+		path: 'flashsale',
+		name: 'Flashsale',
+		component: () => import('@/views/marketing/flashsale')
+	},
+	{
+		path: 'coupon',
+		name: 'Coupon',
+		component: () => import('@/views/marketing/coupon')
+	},
+	{
+		path: 'setting_index',
+		name: 'SettingIndex',
+		component: () => import('@/views/setting/index')
+	},
+	{
+		path: 'staffs',
+		name: 'Staffs',
+		component: () => import('@/views/setting/staffs')
+	},
+	{
+		path: 'role',
+		name: 'Role',
+		component: () => import('@/views/setting/role')
+	},
+	{
+		path: 'mobile_index',
+		name: 'MobileIndex',
+		component: () => import('@/views/renovation/mobile/index')
+	},
+	{
+		path: 'mobile_edit',
+		name: 'MobileEdit',
+		component: () => import('@/views/renovation/mobile/edit')
+	},
+	{
+		path: 'pc_index',
+		name: 'PcIndex',
+		component: () => import('@/views/renovation/pc/index')
+	},
+	{
+		path: 'pc_edit',
+		name: 'PcEdit',
+		component: () => import('@/views/renovation/pc/edit')
+	}
+];
+
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
