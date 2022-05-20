@@ -1,4 +1,5 @@
 import { asyncRoutes, constantRoutes, routesList } from '@/router';
+import Layout from '@/layout';
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -36,6 +37,62 @@ export function filterAsyncRoutes(routes, roles) {
 
 export function filterRoutesList(routes, menus) {
 	const res = [];
+
+	menus.forEach((m) => {
+		let index = routes.findIndex((r) => r.name == m.name);
+		let tmp = {};
+
+		if (inde === -1) {
+			// 找不到就是一级对象
+			tmp = {
+				path: (m.access_id == 0 ? '/' : '') + m.name.toLowerCase(),
+				component: Layout,
+				name: m.name,
+				hidden: m.hidden,
+				meta: {
+					title: m.title
+				}
+			};
+		} else {
+			let rt = routes[index];
+
+			tmp = {
+				path: (m.access_id == 0 ? '/' : '') + rt.path,
+				component: m.access_id == 0 ? Layout : rt.component,
+				name: m.name,
+				hidden: m.hidden,
+				meta: rt.meta || {}
+			};
+
+			tmp.meta.title = m.title;
+		}
+
+		if (m.children && m.children.length > 0) {
+			tmp.children = filterRoutesList(routes, m.children);
+			tmp.redirect = tmp.children[0].path;
+		} else {
+			if (m.access_id == 0) {
+				let rt = routes[index];
+				delete tmp.name;
+
+				tmp.children = [
+					{
+						path: rt.path,
+						name: rt.name,
+						component: rt ? rt.component : tmp.component,
+						meta: rt.meta || {}
+					}
+				];
+
+				tmp.children[0].meta.title = m.title;
+				tmp.redirect = tmp.children[0].path;
+			}
+		}
+
+		res.push(tmp);
+	});
+
+	res.push({ path: '*', redirect: '/404', hidden: true });
 
 	return res;
 }
