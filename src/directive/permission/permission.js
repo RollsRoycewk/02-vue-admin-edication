@@ -1,31 +1,26 @@
-import store from '@/store'
+import store from '@/store';
 
 function checkPermission(el, binding) {
-  const { value } = binding
-  const roles = store.getters && store.getters.roles
+	const { value } = binding;
 
-  if (value && value instanceof Array) {
-    if (value.length > 0) {
-      const permissionRoles = value
+	const accesses = store.getters && store.getters.accesses;
 
-      const hasPermission = roles.some(role => {
-        return permissionRoles.includes(role)
-      })
+	if (value) {
+		const hasPermission = accesses.includes(value);
 
-      if (!hasPermission) {
-        el.parentNode && el.parentNode.removeChild(el)
-      }
-    }
-  } else {
-    throw new Error(`need roles! Like v-permission="['admin','editor']"`)
-  }
+		if (!hasPermission) {
+			el.parentNode && el.parentNode.removeChild(el);
+		}
+	} else {
+		throw new Error(`need  accesses! Like v-permission="'/admin/s/bbs/save,POST'"`);
+	}
 }
 
 export default {
-  inserted(el, binding) {
-    checkPermission(el, binding)
-  },
-  update(el, binding) {
-    checkPermission(el, binding)
-  }
-}
+	inserted(el, binding) {
+		checkPermission(el, binding);
+	},
+	update(el, binding) {
+		checkPermission(el, binding);
+	}
+};

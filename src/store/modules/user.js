@@ -8,7 +8,8 @@ const state = {
 	avatar: '',
 	introduction: '',
 	roles: [],
-	menus: []
+	menus: [],
+	accesses: []
 };
 
 const mutations = {
@@ -29,6 +30,9 @@ const mutations = {
 	},
 	SET_MENUS: (state, menus) => {
 		state.menus = menus;
+	},
+	SET_ACCESSES: (state, accesses) => {
+		state.accesses = accesses;
 	}
 };
 
@@ -61,7 +65,7 @@ const actions = {
 						reject('Verification failed, please Login again.');
 					}
 
-					const { roles, name, avatar, introduction, menus } = data;
+					const { roles, name, avatar, introduction, menus, accesses } = data;
 
 					// roles must be a non-empty array
 					if (!roles) {
@@ -69,7 +73,10 @@ const actions = {
 					}
 
 					commit('SET_ROLES', roles);
+					// 菜单
 					commit('SET_MENUS', menus);
+					// 按钮
+					commit('SET_ACCESSES', accesses);
 					commit('SET_NAME', name);
 					commit('SET_AVATAR', avatar);
 					commit('SET_INTRODUCTION', introduction);

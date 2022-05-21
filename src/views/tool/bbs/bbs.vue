@@ -1,7 +1,14 @@
 <template>
 	<div class="app-container">
 		<div class="filter-container" style="display: flex; justify-content: space-between">
-			<el-button class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-edit" @click="handleCreate">
+			<el-button
+				class="filter-item"
+				style="margin-left: 10px"
+				type="primary"
+				icon="el-icon-edit"
+				@click="handleCreate"
+				v-permission="'/admin/s/bbs/save,POST'"
+			>
 				新增社区
 			</el-button>
 		</div>
