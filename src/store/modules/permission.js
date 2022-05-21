@@ -42,7 +42,7 @@ export function filterRoutesList(routes, menus) {
 		let index = routes.findIndex((r) => r.name == m.name);
 		let tmp = {};
 
-		if (inde === -1) {
+		if (index === -1) {
 			// 找不到就是一级对象
 			tmp = {
 				path: (m.access_id == 0 ? '/' : '') + m.name.toLowerCase(),
